@@ -16,5 +16,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "src/components/Logo.jsx"  ]
+, "src/components/Logo.jsx", "src/app/index.jsx"  ]
 }

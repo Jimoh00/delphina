@@ -77,7 +77,7 @@ export default function Services() {
                                 title={"Request a free assesment"} 
                                 type={"primary"}
                                 onPress={() => router.push('/FreeAssessment')}
-                            />
+                           />
                         </ContainerCard>
                     </View>
                 </SafeAreaView>
