@@ -1,98 +1,203 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, ScrollView, StyleSheet, Pressable, Image } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Logo from '@/components/Logo';
+import ContainerCard from '@/components/ContainerCard';
+import CustomButton from '@/components/CustomButton';
+import ServiceCard from '@/components/ServiceCard';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
 
 export default function HomeScreen() {
+  const services = [
+    {
+      ImageUrl: 'https://images.unsplash.com/photo-1791045779642-c36919da2481?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8',
+      service: 'Personal Care'
+    },
+    {
+      ImageUrl: 'https://plus.unsplash.com/premium_photo-1791039415487-880166b9b9e9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMXx8fGVufDB8fHx8fA%3D%3D',
+      service: 'Companioship'
+    },
+    {
+      ImageUrl: 'https://images.unsplash.com/photo-1790646394476-04b32b61a2c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxOHx8fGVufDB8fHx8fA%3D%3D',
+      service: 'Respite care'
+    },
+  ]
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <ScrollView style={{ flex: 1 }}>
+      <SafeAreaProvider style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.logo}>
+              <Logo />
+              <View>
+                <Text style={styles.logoMainText} >Delphina Home Health</Text>
+                <Text style={styles.logoBodyText}>Oak Ridge, Tennessee</Text>
+              </View>
+            </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+            <Pressable style={styles.cta}>
+              <Image source={require('@/assets/images/tabIcons/call.png')} style={styles.ctaIcon}  />
+            </Pressable>
+          </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
+          <View style={{ marginTop: 24 }}>
+            <ContainerCard secondary={false}>
+              <View style={styles.eyebrow}>
+                <View style={styles.eyebrowSymbol} />
+                <Text style={styles.eyebrowText}>Owned and run by a Registered Nurs</Text>
+              </View>
+              <Text style={styles.headingText}>The nurse who owns this agency is the one who comes to your mom's house.</Text>
+              <Text style={styles.bodyText}>
+                Non-medical home care across East Tennessee. Your free in-home assessment is done by an RN.
+              </Text>
+
+
+              <View>
+                <CustomButton title={"Request a free assessment"} type={'primary'} style={{ marginTop: 16, }}  />
+                <CustomButton 
+                  title={"(865) 272-4673"} 
+                  type={'secondary'} 
+                  icon='true' 
+                  iconUrl={require('@/assets/images/call-white.png')} 
+                  style={{ marginTop: 8, }} 
+                  textColor={'#fff'} 
+                />
+              </View>
+            </ContainerCard>
+
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+              <Text style={{ fontWeight: 'semibold', color: '#1B3A31' }}>✓ RN-owned</Text>
+              <Text style={{ fontWeight: 'semibold', color: '#1B3A31' }}>✓ 30+ years local</Text>
+              <Text style={{ fontWeight: 'semibold', color: '#1B3A31' }}>✓ Trained, insured</Text>
+            </View>
+
+
+            <View style={styles.titleHeader}>
+              <Text style={styles.title}>What we do</Text>
+              <Pressable><Text style={styles.titleLink}>See all</Text></Pressable>
+            </View>
+
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 16 }}>
+              {services.map((s, index) => (
+                <ServiceCard service={s.service} ImageUrl={s.ImageUrl} key={index} />
+              ))}
+            </View>
+
+            <View style={{ marginTop: 24,}}>
+              <ContainerCard secondary={true}>
+                <View style={styles.footerContainer}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, }}>
+                    <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderRadius: '50%' }}>
+                      <Image source={require('@/assets/images/location-p.png')} style={styles.location} />
+                    </View>
+
+                    <View>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18, width: '80%' }}>We drive these roads anyway.</Text>
+                      <Text style={{ fontSize: 14, color: '#747474', width: '80%' }}>Oak Ridge, Anderson, Roane, Knox</Text>
+                    </View>
+                  </View>
+
+                  <Image source={require('@/assets/images/right.png')} />
+                </View>
+              </ContainerCard>
+            </View>
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </ScrollView>
+  )
 }
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#FFFDFA',
+    padding: 10,
+  },
+  logo: {
     flexDirection: 'row',
+    gap: 8,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+  logoMainText: {
+    fontWeight: 'bold',
+    fontSize: 18,
   },
-  heroSection: {
+  logoBodyText: {
+    fontSize: 14,
+    fontWeight: 'thin',
+  },
+  cta: {
+    backgroundColor: '#F4EFE6',
+    padding: 12,
+    borderRadius: '50%',
+  },
+  ctaIcon: {
+    width: 18,
+    height: 18,
+  },
+  eyebrow: {
+    flexDirection: 'row',
+    gap: 8,
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: '#ffffff1e',
+    borderColor: '#ffffff57',
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  },
+  eyebrowText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  eyebrowSymbol: {
+    width: 8,
+    height: 8,
+    borderRadius: '50%',
+    backgroundColor: '#ffd52dc7',
+  },
+  headingText: {
+    fontSize: 28,
+    marginTop: 12,
+    fontWeight: 'bold',
+    color: '#fff'
+  },
+  bodyText: {
+    marginTop: 8,
+    color: '#ffffffb9',
+    fontSize: 16,
+    lineHeight: 28,
+  },
+  titleHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 32,
   },
   title: {
-    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  code: {
-    textTransform: 'uppercase',
+  titleLink: {
+    fontWeight: 'semibold',
+    fontSize: 16,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  location: {
+    width: 20,
+    height: 20,
   },
-});
+  footerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    
+  }
+})
